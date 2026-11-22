@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Website architecture
+- Keep shared navigation and footer in `SiteShell` around the root Outlet; content routes own unique metadata so every page is directly shareable.
+- Keep service, project and article content in browser-safe typed data modules, with dynamic detail routes; this centralizes repeatable content without duplicating page logic.
+- Keep public contact channels, package amounts and the optional inquiry endpoint in `site-config.ts`; an unconfigured form must explicitly report that nothing was sent.
+- Keep colors and custom layout styles in `src/styles.css`, using semantic tokens and Button variants; this preserves one brand system across all pages.
