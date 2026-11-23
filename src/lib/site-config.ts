@@ -1,7 +1,7 @@
 export const siteConfig = {
   email: "satyaku246@gmail.com",
   whatsapp: "918934856824",
-  responseTime: "Response time will be confirmed when contact channels are available.",
+  responseTime: "Reply timing is agreed during your initial conversation.",
   inquiryEndpoint: "",
   currency: "NPR",
   prices: { Starter: 5000, Growth: 8000, Premium: 10000 },

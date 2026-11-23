@@ -34,3 +34,4 @@ use the editor.
 - Keep service, project and article content in browser-safe typed data modules, with dynamic detail routes; this centralizes repeatable content without duplicating page logic.
 - Keep public contact channels, package amounts and the optional inquiry endpoint in `site-config.ts`; an unconfigured form must explicitly report that nothing was sent.
 - Keep colors and custom layout styles in `src/styles.css`, using semantic tokens and Button variants; this preserves one brand system across all pages.
+- Route loaders must return only serializable content, never icon components; SSR transfers their output to the browser.

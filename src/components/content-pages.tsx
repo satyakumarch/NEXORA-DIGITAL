@@ -1,20 +1,612 @@
-import { useState } from 'react';
-import { Link } from '@tanstack/react-router';
-import { ArrowUpRight, ArrowRight, Search, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { PageHero, ServiceGrid, CTA, WorkingProcess, Faqs, ProjectCard, CheckList, ChatPreview } from '@/components/page-parts';
-import { services, projects, articles } from '@/lib/content';
-import { siteConfig } from '@/lib/site-config';
-import heroImage from '@/assets/nexora-technology.webp';
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight, ArrowRight, Search, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  PageHero,
+  ServiceGrid,
+  CTA,
+  WorkingProcess,
+  Faqs,
+  ProjectCard,
+  CheckList,
+  ChatPreview,
+} from "@/components/page-parts";
+import { services, projects, articles } from "@/lib/content";
+import { siteConfig } from "@/lib/site-config";
+import heroImage from "@/assets/nexora-technology.webp";
 
-export function AboutPage() { return <><PageHero eyebrow="About Nexora" title="Rooted in Nepal. Thinking beyond borders." description="We’re a growing digital agency connecting purposeful design, thoughtful marketing and intelligent technology."/><section className="section"><div className="container content-columns prose"><div><div className="eyebrow">Our story</div><h2>Built on a simple belief:<br/>good ideas deserve to grow.</h2></div><div><p>Nexora Digital brings websites, marketing, branding and automation together under one shared purpose: helping businesses move forward with clarity.</p><p>Based in Nepal with an international outlook, we work with ambitious businesses, entrepreneurs and institutions that want a stronger digital foundation. We’re growing thoughtfully, with an emphasis on useful work and honest relationships rather than inflated claims.</p><p>We Build. We Market. We Automate. These are connected parts of one approach — understanding your business, creating the right tools and helping you use them well.</p></div></div></section><section className="section section-soft"><div className="container content-columns prose"><div><div className="eyebrow">Our mission</div><h2>Turn digital potential into practical progress.</h2><p>Help businesses grow through modern websites, strategic digital marketing, creative branding, search engine optimization and intelligent AI automation.</p></div><div><div className="eyebrow">Our vision</div><h2>A more connected future for ambitious businesses.</h2><p>To be a trusted digital growth partner that helps businesses in Nepal and around the world use technology with confidence, creativity and purpose.</p></div></div></section><section className="section"><div className="container"><div className="section-header"><div><div className="eyebrow">What guides us</div><h2>Good work. Real principles.</h2></div></div><div className="value-grid">{[['Clarity','We make complex decisions understandable and keep expectations grounded in an agreed scope.'],['Craft','We care about the details that make a website, campaign or workflow genuinely useful.'],['Partnership','We listen, share our thinking and treat your business goals as the starting point of our work.'],['Integrity','We represent our work honestly and do not promise guaranteed outcomes or invent credentials.'],['Curiosity','We explore emerging technology while choosing tools that solve a real problem.'],['Purpose','We connect creative choices to the needs of your audience and the next stage of your business.']].map(([a,b])=><div className="value-item" key={a}><h3>{a}</h3><p>{b}</p></div>)}</div></div></section><WorkingProcess/><CTA/></>; }
-export function ServicesPage() { return <><PageHero eyebrow="Our services" title="One partner. A world of digital possibilities." description="Six connected disciplines. One clear goal: a stronger digital foundation for your business."/><section className="section section-soft"><div className="container"><ServiceGrid/></div></section><WorkingProcess/><CTA/></>; }
-export function ServicePage({slug}: {slug:string}) { const s=services.find(s=>s.slug===slug); if(!s) return null; const faq:readonly (readonly [string,string])[]=[[`What does ${s.title.toLowerCase()} include?`,`Your quotation defines the exact scope. Possible deliverables include ${s.deliverables.join(', ').toLowerCase()}. We tailor these to your priorities rather than assuming every project needs everything.`],['How do we get started?','Tell us about your business, your current challenges and the outcome you are working toward. We review the scope with you and prepare a custom quotation.'],['Are third-party costs included?','Hosting, advertising budgets, paid tools and subscriptions are identified separately when relevant. Your quotation explains which costs are included and which are your responsibility.'],['Will I be involved in the process?','Yes. We agree on milestones and collect your feedback at the appropriate stages. Clear decisions and timely content help keep the project moving.']]; return <><PageHero eyebrow={s.title} title={s.short} description={s.description}/><section className="section"><div className="container content-columns prose"><div><div className="eyebrow">Purposeful digital solutions</div><h2>{s.title}</h2><p>{s.detail}</p><Button asChild className="mt-4"><Link to="/contact" search={{service:s.title}}>Discuss your project <ArrowUpRight/></Link></Button></div><div><h3 className="mt-0! mb-7">What we can deliver</h3><CheckList items={s.deliverables}/></div></div></section><section className="section section-soft"><div className="container"><div className="section-header"><div><div className="eyebrow">The value for your business</div><h2>Built to make a difference.</h2></div></div><div className="value-grid">{s.benefits.map((b,i)=><div className="value-item" key={b}><span className="process-number">0{i+1}</span><h3>{b}</h3></div>)}</div></div></section><WorkingProcess/><section className="section section-soft"><div className="container faq-layout"><div><div className="eyebrow">Before we begin</div><h2>Your questions, answered.</h2></div><Faqs items={faq}/></div></section><section className="section"><div className="container"><div className="section-header"><h2>Explore our other services.</h2><Link to="/services" className="text-link">All services <ArrowRight/></Link></div><div className="filter-bar">{services.filter(x=>x.slug!==slug).map(x=><Button key={x.slug} variant="outline" asChild><Link to="/services/$service" params={{service:x.slug}}>{x.title}<ArrowUpRight/></Link></Button>)}</div></div></section><CTA title={`Let’s talk ${s.title.toLowerCase()}.`}/></>; }
-const portfolioFilters=['All projects','Website Development','Social Media Marketing','Branding and Graphic Design','AI Automation'];
-export function PortfolioPage() { const [category,setCategory]=useState('All projects'); const filtered=projects.filter(p=>category==='All projects'||p.category===category); return <><PageHero eyebrow="Our portfolio" title="Considered design. New possibilities." description="Explore original demonstration projects across websites, branding and automation. Every project here is a sample concept, not a real client engagement."/><section className="section"><div className="container"><div className="filter-bar" aria-label="Filter portfolio">{portfolioFilters.map(c=><Button variant="ghost" key={c} aria-pressed={category===c} onClick={()=>setCategory(c)}>{c}</Button>)}</div>{filtered.length?<div className="project-grid">{filtered.map(p=><ProjectCard key={p.slug} project={p}/>)}</div>:<div className="empty-state"><p>No sample concepts in this category yet.</p><Button variant="link" onClick={()=>setCategory('All projects')}>View all projects <ArrowRight/></Button></div>}</div></section><CTA/></>; }
-export function ProjectPage({slug}: {slug:string}) { const p=projects.find(p=>p.slug===slug); if(!p)return null; return <><PageHero eyebrow="Sample concept · Portfolio" title={p.name} description={`${p.type}. An original fictional demonstration, not a real client project or a live deployed product.`}/><section className="section"><div className="container">{p.image?<img className="project-detail-image" src={p.image} alt={`${p.name} sample website concept`} width="793" height="496"/>:<div className="mb-10"><ChatPreview/></div>}<div className="content-columns prose"><div><div className="eyebrow">The objective</div><h2>A clear problem to explore.</h2><p>{p.objective}</p><h3>The solution</h3><p>{p.solution}</p></div><div><h3 className="mt-0!">Concept highlights</h3><CheckList items={p.features}/><h3>Proposed technologies</h3><div className="filter-bar">{p.technologies.map(t=><span className="text-xs px-3 py-2 bg-secondary rounded-md" key={t}>{t}</span>)}</div><p>These technologies describe the proposed implementation for this sample. No client results or production integrations are claimed.</p><Link to="/portfolio" className="text-link">Back to all concepts <ArrowRight/></Link></div></div></div></section><CTA title="Have a similar idea in mind?"/></>; }
-const plans=[{name:'Starter' as const,description:'A confident first step online.',items:['Basic business website','Essential online presence','Basic branding support']},{name:'Growth' as const,description:'A connected foundation for your next stage.',items:['Professional website','Social media management','SEO foundation','Marketing creatives']},{name:'Premium' as const,description:'A more complete digital growth partnership.',items:['Advanced website solutions','Digital marketing strategy','SEO','AI automation','Ongoing support']}];
-export function PricingPage() { return <><PageHero eyebrow="Flexible pricing" title="The right starting point for your ambition." description="Three flexible packages, shaped around your goals. Start with a direction, then let’s build a quotation that fits your business."/><section className="section section-soft"><div className="container"><div className="price-grid">{plans.map(p=><div className={`price-card ${p.name==='Growth'?'featured':''}`} key={p.name}>{p.name==='Growth'&&<span className="plan-label">A BALANCED STARTING POINT</span>}<h2>{p.name}</h2><p>{p.description}</p><p className="mt-6 mb-0">Starting from</p><div className="price-value"><small>{siteConfig.currency}</small> {siteConfig.prices[p.name].toLocaleString('en-US')}</div><CheckList items={p.items}/><Button asChild variant={p.name==='Growth'?'default':'outline'} className="w-full"><Link to="/contact" search={{plan:p.name}}>Discuss {p.name} <ArrowUpRight/></Link></Button></div>)}</div><p className="section-lede mt-8 max-w-none!">Starting prices are indicative, not a fixed quote. Final pricing depends on scope, content, integrations and ongoing support. Advertising spend, hosting and third-party subscriptions are quoted separately where applicable. Package inclusions and billing terms are agreed in writing. No guaranteed sales, rankings or follower counts.</p></div></section><section className="section"><div className="container faq-layout"><div><div className="eyebrow">Made to fit your business</div><h2>Need something<br/>more specific?</h2><p className="section-lede mt-5 mb-6">Tell us what you’re working toward. We’ll help define the right scope rather than squeeze your idea into a package.</p><Button asChild><Link to="/contact">Request a custom quotation <ArrowUpRight/></Link></Button></div><Faqs items={[["What determines the final cost?","The number of pages, functionality, content production, integrations and ongoing support affect the quotation. We define these before work begins."],["Can I combine services?","Yes. Website development, marketing, branding, SEO and automation can be combined in a custom scope."],["Does the package include advertising spend?","No. Media spend and third-party tool subscriptions are separately identified in your quotation."],["Are there guaranteed results?","No. Market conditions and other factors affect outcomes. We commit to clear deliverables and transparent work."]]}/></div></section><CTA/></>; }
-export function ArticleCard({article}: {article:typeof articles[number]}) { return <Link className="article-card" to="/blog/$article" params={{article:article.slug}}><div className="article-cover"><img src={heroImage} alt="Teal geometric technology sculpture" loading="lazy"/><span className="article-cover-title">{article.category}</span></div><div className="article-card-body"><div className="article-meta"><span>{article.category}</span><span>{article.read}</span></div><h2>{article.title}</h2><p>{article.excerpt}</p><span className="text-link">Read article <ArrowUpRight/></span></div></Link>; }
-export function BlogPage() { const [query,setQuery]=useState(''); const [category,setCategory]=useState('All articles'); const filtered=articles.filter(a=>(category==='All articles'||a.category===category)&&`${a.title} ${a.excerpt} ${a.category}`.toLowerCase().includes(query.toLowerCase())); return <><PageHero eyebrow="Insights & ideas" title="A little knowledge. A clearer next step." description="Original practical articles on websites, marketing and technology — written to help you make more informed decisions."/><section className="section section-soft"><div className="container"><div className="section-header"><div><div className="eyebrow">Featured insight</div><h2>Start with a website that works.</h2><p className="section-lede mt-4">Clear purpose. Useful content. A better experience for your customers.</p></div><Button asChild variant="outline"><Link to="/blog/$article" params={{article:'website-that-works'}}>Read our website guide <ArrowUpRight/></Link></Button></div></div></section><section className="section"><div className="container"><label className="search-wrap"><Search/><input className="search-field" type="search" placeholder="Search insights…" value={query} onChange={e=>setQuery(e.target.value)} aria-label="Search articles"/></label><div className="filter-bar">{['All articles','Digital Marketing','Web Development','SEO','AI Automation','Business Growth','Technology'].map(c=><Button variant="ghost" key={c} aria-pressed={category===c} onClick={()=>setCategory(c)}>{c}</Button>)}</div>{filtered.length?<div className="article-grid">{filtered.map(a=><ArticleCard key={a.slug} article={a}/>)}</div>:<div className="empty-state"><p>No articles match your search.</p><Button variant="link" onClick={()=>{setQuery('');setCategory('All articles');}}>Clear filters <ArrowRight/></Button></div>}</div></section><CTA/></>; }
-export function ArticlePage({slug}: {slug:string}) { const a=articles.find(a=>a.slug===slug); if(!a)return null; return <><PageHero eyebrow={a.category} title={a.title} description={a.excerpt}/><section className="section"><article className="container article-body"><div className="article-meta mb-7"><span>Nexora Digital</span><span>{a.read}</span><span>Original sample article</span></div><img src={heroImage} alt="Nexora Digital geometric teal technology artwork" width="1672" height="941"/>{a.sections.map(([title,text])=><section key={title}><h2>{title}</h2><p>{text}</p></section>)}<div className="mt-10"><Link className="text-link" to="/blog">Explore more insights <ArrowRight/></Link></div></article></section><CTA/></>; }
+export function AboutPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="About Nexora"
+        title="Rooted in Nepal. Thinking beyond borders."
+        description="We’re a growing digital agency connecting purposeful design, thoughtful marketing and intelligent technology."
+      />
+      <section className="section">
+        <div className="container content-columns prose">
+          <div>
+            <div className="eyebrow">Our story</div>
+            <h2>
+              Built on a simple belief:
+              <br />
+              good ideas deserve to grow.
+            </h2>
+          </div>
+          <div>
+            <p>
+              Nexora Digital brings websites, marketing, branding and automation together under one
+              shared purpose: helping businesses move forward with clarity.
+            </p>
+            <p>
+              Based in Nepal with an international outlook, we work with ambitious businesses,
+              entrepreneurs and institutions that want a stronger digital foundation. We’re growing
+              thoughtfully, with an emphasis on useful work and honest relationships rather than
+              inflated claims.
+            </p>
+            <p>
+              We Build. We Market. We Automate. These are connected parts of one approach —
+              understanding your business, creating the right tools and helping you use them well.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className="section section-soft">
+        <div className="container content-columns prose">
+          <div>
+            <div className="eyebrow">Our mission</div>
+            <h2>Turn digital potential into practical progress.</h2>
+            <p>
+              Help businesses grow through modern websites, strategic digital marketing, creative
+              branding, search engine optimization and intelligent AI automation.
+            </p>
+          </div>
+          <div>
+            <div className="eyebrow">Our vision</div>
+            <h2>A more connected future for ambitious businesses.</h2>
+            <p>
+              To be a trusted digital growth partner that helps businesses in Nepal and around the
+              world use technology with confidence, creativity and purpose.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container">
+          <div className="section-header">
+            <div>
+              <div className="eyebrow">What guides us</div>
+              <h2>Good work. Real principles.</h2>
+            </div>
+          </div>
+          <div className="value-grid">
+            {[
+              [
+                "Clarity",
+                "We make complex decisions understandable and keep expectations grounded in an agreed scope.",
+              ],
+              [
+                "Craft",
+                "We care about the details that make a website, campaign or workflow genuinely useful.",
+              ],
+              [
+                "Partnership",
+                "We listen, share our thinking and treat your business goals as the starting point of our work.",
+              ],
+              [
+                "Integrity",
+                "We represent our work honestly and do not promise guaranteed outcomes or invent credentials.",
+              ],
+              [
+                "Curiosity",
+                "We explore emerging technology while choosing tools that solve a real problem.",
+              ],
+              [
+                "Purpose",
+                "We connect creative choices to the needs of your audience and the next stage of your business.",
+              ],
+            ].map(([a, b]) => (
+              <div className="value-item" key={a}>
+                <h3>{a}</h3>
+                <p>{b}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <WorkingProcess />
+      <CTA />
+    </>
+  );
+}
+export function ServicesPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Our services"
+        title="One partner. A world of digital possibilities."
+        description="Six connected disciplines. One clear goal: a stronger digital foundation for your business."
+      />
+      <section className="section section-soft">
+        <div className="container">
+          <ServiceGrid />
+        </div>
+      </section>
+      <WorkingProcess />
+      <CTA />
+    </>
+  );
+}
+export function ServicePage({ slug }: { slug: string }) {
+  const s = services.find((s) => s.slug === slug);
+  if (!s) return null;
+  const faq: readonly (readonly [string, string])[] = [
+    [
+      `What does ${s.title.toLowerCase()} include?`,
+      `Your quotation defines the exact scope. Possible deliverables include ${s.deliverables.join(", ").toLowerCase()}. We tailor these to your priorities rather than assuming every project needs everything.`,
+    ],
+    [
+      "How do we get started?",
+      "Tell us about your business, your current challenges and the outcome you are working toward. We review the scope with you and prepare a custom quotation.",
+    ],
+    [
+      "Are third-party costs included?",
+      "Hosting, advertising budgets, paid tools and subscriptions are identified separately when relevant. Your quotation explains which costs are included and which are your responsibility.",
+    ],
+    [
+      "Will I be involved in the process?",
+      "Yes. We agree on milestones and collect your feedback at the appropriate stages. Clear decisions and timely content help keep the project moving.",
+    ],
+  ];
+  return (
+    <>
+      <PageHero eyebrow={s.title} title={s.short} description={s.description} />
+      <section className="section">
+        <div className="container content-columns prose">
+          <div>
+            <div className="eyebrow">Purposeful digital solutions</div>
+            <h2>{s.title}</h2>
+            <p>{s.detail}</p>
+            <Button asChild className="mt-4">
+              <Link to="/contact" search={{ service: s.title }}>
+                Discuss your project <ArrowUpRight />
+              </Link>
+            </Button>
+          </div>
+          <div>
+            <h3 className="mt-0! mb-7">What we can deliver</h3>
+            <CheckList items={s.deliverables} />
+          </div>
+        </div>
+      </section>
+      <section className="section section-soft">
+        <div className="container">
+          <div className="section-header">
+            <div>
+              <div className="eyebrow">The value for your business</div>
+              <h2>Built to make a difference.</h2>
+            </div>
+          </div>
+          <div className="value-grid">
+            {s.benefits.map((b, i) => (
+              <div className="value-item" key={b}>
+                <span className="process-number">0{i + 1}</span>
+                <h3>{b}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <WorkingProcess />
+      <section className="section section-soft">
+        <div className="container faq-layout">
+          <div>
+            <div className="eyebrow">Before we begin</div>
+            <h2>Your questions, answered.</h2>
+          </div>
+          <Faqs items={faq} />
+        </div>
+      </section>
+      <section className="section">
+        <div className="container">
+          <div className="section-header">
+            <h2>Explore our other services.</h2>
+            <Link to="/services" className="text-link">
+              All services <ArrowRight />
+            </Link>
+          </div>
+          <div className="filter-bar">
+            {services
+              .filter((x) => x.slug !== slug)
+              .map((x) => (
+                <Button key={x.slug} variant="outline" asChild>
+                  <Link to="/services/$service" params={{ service: x.slug }}>
+                    {x.title}
+                    <ArrowUpRight />
+                  </Link>
+                </Button>
+              ))}
+          </div>
+        </div>
+      </section>
+      <CTA title={`Let’s talk ${s.title.toLowerCase()}.`} />
+    </>
+  );
+}
+const portfolioFilters = [
+  "All projects",
+  "Website Development",
+  "Social Media Marketing",
+  "Branding and Graphic Design",
+  "AI Automation",
+];
+export function PortfolioPage() {
+  const [category, setCategory] = useState("All projects");
+  const filtered = projects.filter((p) => category === "All projects" || p.category === category);
+  return (
+    <>
+      <PageHero
+        eyebrow="Our portfolio"
+        title="Considered design. New possibilities."
+        description="Explore original demonstration projects across websites, branding and automation. Every project here is a sample concept, not a real client engagement."
+      />
+      <section className="section">
+        <div className="container">
+          <div className="filter-bar" aria-label="Filter portfolio">
+            {portfolioFilters.map((c) => (
+              <Button
+                variant="ghost"
+                key={c}
+                aria-pressed={category === c}
+                onClick={() => setCategory(c)}
+              >
+                {c}
+              </Button>
+            ))}
+          </div>
+          {filtered.length ? (
+            <div className="project-grid">
+              {filtered.map((p) => (
+                <ProjectCard key={p.slug} project={p} />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <p>No sample concepts in this category yet.</p>
+              <Button variant="link" onClick={() => setCategory("All projects")}>
+                View all projects <ArrowRight />
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
+      <CTA />
+    </>
+  );
+}
+export function ProjectPage({ slug }: { slug: string }) {
+  const p = projects.find((p) => p.slug === slug);
+  if (!p) return null;
+  return (
+    <>
+      <PageHero
+        eyebrow="Sample concept · Portfolio"
+        title={p.name}
+        description={`${p.type}. An original fictional demonstration, not a real client project or a live deployed product.`}
+      />
+      <section className="section">
+        <div className="container">
+          {p.image ? (
+            <img
+              className="project-detail-image"
+              src={p.image}
+              alt={`${p.name} sample website concept`}
+              width="793"
+              height="496"
+            />
+          ) : (
+            <div className="mb-10">
+              <ChatPreview />
+            </div>
+          )}
+          <div className="content-columns prose">
+            <div>
+              <div className="eyebrow">The objective</div>
+              <h2>A clear problem to explore.</h2>
+              <p>{p.objective}</p>
+              <h3>The solution</h3>
+              <p>{p.solution}</p>
+            </div>
+            <div>
+              <h3 className="mt-0!">Concept highlights</h3>
+              <CheckList items={p.features} />
+              <h3>Proposed technologies</h3>
+              <div className="filter-bar">
+                {p.technologies.map((t) => (
+                  <span className="text-xs px-3 py-2 bg-secondary rounded-md" key={t}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <p>
+                These technologies describe the proposed implementation for this sample. No client
+                results or production integrations are claimed.
+              </p>
+              <Link to="/portfolio" className="text-link">
+                Back to all concepts <ArrowRight />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      <CTA title="Have a similar idea in mind?" />
+    </>
+  );
+}
+const plans = [
+  {
+    name: "Starter" as const,
+    description: "A confident first step online.",
+    items: ["Basic business website", "Essential online presence", "Basic branding support"],
+  },
+  {
+    name: "Growth" as const,
+    description: "A connected foundation for your next stage.",
+    items: [
+      "Professional website",
+      "Social media management",
+      "SEO foundation",
+      "Marketing creatives",
+    ],
+  },
+  {
+    name: "Premium" as const,
+    description: "A more complete digital growth partnership.",
+    items: [
+      "Advanced website solutions",
+      "Digital marketing strategy",
+      "SEO",
+      "AI automation",
+      "Ongoing support",
+    ],
+  },
+];
+export function PricingPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Flexible pricing"
+        title="The right starting point for your ambition."
+        description="Three flexible packages, shaped around your goals. Start with a direction, then let’s build a quotation that fits your business."
+      />
+      <section className="section section-soft">
+        <div className="container">
+          <div className="price-grid">
+            {plans.map((p) => (
+              <div className={`price-card ${p.name === "Growth" ? "featured" : ""}`} key={p.name}>
+                {p.name === "Growth" && (
+                  <span className="plan-label">A BALANCED STARTING POINT</span>
+                )}
+                <h2>{p.name}</h2>
+                <p>{p.description}</p>
+                <p className="mt-6 mb-0">Starting from</p>
+                <div className="price-value">
+                  <small>{siteConfig.currency}</small>{" "}
+                  {siteConfig.prices[p.name].toLocaleString("en-US")}
+                </div>
+                <CheckList items={p.items} />
+                <Button
+                  asChild
+                  variant={p.name === "Growth" ? "default" : "outline"}
+                  className="w-full"
+                >
+                  <Link to="/contact" search={{ plan: p.name }}>
+                    Discuss {p.name} <ArrowUpRight />
+                  </Link>
+                </Button>
+              </div>
+            ))}
+          </div>
+          <p className="section-lede mt-8 max-w-none!">
+            Starting prices are indicative, not a fixed quote. Final pricing depends on scope,
+            content, integrations and ongoing support. Advertising spend, hosting and third-party
+            subscriptions are quoted separately where applicable. Package inclusions and billing
+            terms are agreed in writing. No guaranteed sales, rankings or follower counts.
+          </p>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container faq-layout">
+          <div>
+            <div className="eyebrow">Made to fit your business</div>
+            <h2>
+              Need something
+              <br />
+              more specific?
+            </h2>
+            <p className="section-lede mt-5 mb-6">
+              Tell us what you’re working toward. We’ll help define the right scope rather than
+              squeeze your idea into a package.
+            </p>
+            <Button asChild>
+              <Link to="/contact">
+                Request a custom quotation <ArrowUpRight />
+              </Link>
+            </Button>
+          </div>
+          <Faqs
+            items={[
+              [
+                "What determines the final cost?",
+                "The number of pages, functionality, content production, integrations and ongoing support affect the quotation. We define these before work begins.",
+              ],
+              [
+                "Can I combine services?",
+                "Yes. Website development, marketing, branding, SEO and automation can be combined in a custom scope.",
+              ],
+              [
+                "Does the package include advertising spend?",
+                "No. Media spend and third-party tool subscriptions are separately identified in your quotation.",
+              ],
+              [
+                "Are there guaranteed results?",
+                "No. Market conditions and other factors affect outcomes. We commit to clear deliverables and transparent work.",
+              ],
+            ]}
+          />
+        </div>
+      </section>
+      <CTA />
+    </>
+  );
+}
+export function ArticleCard({ article }: { article: (typeof articles)[number] }) {
+  return (
+    <Link className="article-card" to="/blog/$article" params={{ article: article.slug }}>
+      <div className="article-cover">
+        <img src={heroImage} alt="Teal geometric technology sculpture" loading="lazy" />
+        <span className="article-cover-title">{article.category}</span>
+      </div>
+      <div className="article-card-body">
+        <div className="article-meta">
+          <span>{article.category}</span>
+          <span>{article.read}</span>
+        </div>
+        <h2>{article.title}</h2>
+        <p>{article.excerpt}</p>
+        <span className="text-link">
+          Read article <ArrowUpRight />
+        </span>
+      </div>
+    </Link>
+  );
+}
+export function BlogPage() {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All articles");
+  const filtered = articles.filter(
+    (a) =>
+      (category === "All articles" || a.category === category) &&
+      `${a.title} ${a.excerpt} ${a.category}`.toLowerCase().includes(query.toLowerCase()),
+  );
+  return (
+    <>
+      <PageHero
+        eyebrow="Insights & ideas"
+        title="A little knowledge. A clearer next step."
+        description="Original practical articles on websites, marketing and technology — written to help you make more informed decisions."
+      />
+      <section className="section section-soft">
+        <div className="container">
+          <div className="section-header">
+            <div>
+              <div className="eyebrow">Featured insight</div>
+              <h2>Start with a website that works.</h2>
+              <p className="section-lede mt-4">
+                Clear purpose. Useful content. A better experience for your customers.
+              </p>
+            </div>
+            <Button asChild variant="outline">
+              <Link to="/blog/$article" params={{ article: "website-that-works" }}>
+                Read our website guide <ArrowUpRight />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container">
+          <label className="search-wrap">
+            <Search />
+            <input
+              className="search-field"
+              type="search"
+              placeholder="Search insights…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search articles"
+            />
+          </label>
+          <div className="filter-bar">
+            {[
+              "All articles",
+              "Digital Marketing",
+              "Web Development",
+              "SEO",
+              "AI Automation",
+              "Business Growth",
+              "Technology",
+            ].map((c) => (
+              <Button
+                variant="ghost"
+                key={c}
+                aria-pressed={category === c}
+                onClick={() => setCategory(c)}
+              >
+                {c}
+              </Button>
+            ))}
+          </div>
+          {filtered.length ? (
+            <div className="article-grid">
+              {filtered.map((a) => (
+                <ArticleCard key={a.slug} article={a} />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <p>No articles match your search.</p>
+              <Button
+                variant="link"
+                onClick={() => {
+                  setQuery("");
+                  setCategory("All articles");
+                }}
+              >
+                Clear filters <ArrowRight />
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
+      <CTA />
+    </>
+  );
+}
+export function ArticlePage({ slug }: { slug: string }) {
+  const a = articles.find((a) => a.slug === slug);
+  if (!a) return null;
+  return (
+    <>
+      <PageHero eyebrow={a.category} title={a.title} description={a.excerpt} />
+      <section className="section">
+        <article className="container article-body">
+          <div className="article-meta mb-7">
+            <span>Nexora Digital</span>
+            <span>{a.read}</span>
+            <span>Original sample article</span>
+          </div>
+          <img
+            src={heroImage}
+            alt="Nexora Digital geometric teal technology artwork"
+            width="1672"
+            height="941"
+          />
+          {a.sections.map(([title, text]) => (
+            <section key={title}>
+              <h2>{title}</h2>
+              <p>{text}</p>
+            </section>
+          ))}
+          <div className="mt-10">
+            <Link className="text-link" to="/blog">
+              Explore more insights <ArrowRight />
+            </Link>
+          </div>
+        </article>
+      </section>
+      <CTA />
+    </>
+  );
+}
