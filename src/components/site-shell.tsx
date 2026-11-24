@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ArrowUp, ArrowUpRight, Menu, X, Globe, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { Motion3D } from "@/components/motion-3d";
 import { siteConfig, contactChannels } from "@/lib/site-config";
 
@@ -16,7 +17,7 @@ const navigation = [
 ] as const;
 export function Brand() {
   return (
-    <Link to="/" className="brand" aria-label="Nexora Digital home">
+    <Link to="/" className="brand notranslate" translate="no" aria-label="Nexora Digital home">
       <svg className="brand-mark" viewBox="0 0 40 44" fill="none" aria-hidden="true">
         <path d="M3 37V7L11 3L29 29V7L37 3V37L29 41L11 15V37L3 41V37Z" fill="currentColor" />
         <path d="M11 3L29 29V41L11 15V3Z" fill="currentColor" opacity=".55" />
@@ -65,6 +66,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <nav className="desktop-nav" aria-label="Main navigation">
             {nav}
           </nav>
+          <LanguageSwitcher />
           <Button asChild variant="hero" className="header-cta">
             <Link to="/contact">
               Let’s Talk <ArrowUpRight />

@@ -1319,3 +1319,38 @@
     transform: none;
   }
 }
+
+/* Language switcher */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in oklab, var(--primary) 40%, transparent);
+  border-radius: 999px;
+  color: var(--primary);
+  font-size: 13px;
+}
+.lang-switch svg {
+  width: 15px;
+  height: 15px;
+}
+.lang-switch select {
+  background: transparent;
+  color: inherit;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+.lang-switch option {
+  background: var(--hero);
+  color: var(--hero-foreground);
+}
+.skiptranslate,
+#goog-gt-tt,
+.goog-te-banner-frame {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+}
