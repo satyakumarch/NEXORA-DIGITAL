@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ArrowUp, ArrowUpRight, Menu, X, Globe, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Motion3D } from "@/components/motion-3d";
 import { siteConfig, contactChannels } from "@/lib/site-config";
 
 const navigation = [
@@ -93,6 +94,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
         )}
       </header>
       <main id="main-content">{children}</main>
+      <Motion3D />
       <footer className="site-footer">
         <div className="container">
           <div className="footer-grid">

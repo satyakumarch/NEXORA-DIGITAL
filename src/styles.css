@@ -1276,3 +1276,46 @@
     animation: none !important;
   }
 }
+
+/* 3D motion */
+.hero-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-3d canvas {
+  pointer-events: auto;
+}
+@media (max-width: 760px) {
+  .hero-3d {
+    opacity: 0.45;
+  }
+}
+.reveal-3d {
+  opacity: 0;
+  transform: perspective(900px) rotateX(18deg) translateY(40px) scale(0.97);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.8s ease var(--reveal-delay, 0ms),
+    transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0ms);
+}
+.reveal-3d.in-view {
+  opacity: 1;
+  transform: none;
+}
+.tilt-3d.in-view {
+  transform: perspective(800px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.25s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.tilt-3d.in-view:hover {
+  box-shadow: 0 24px 50px -24px color-mix(in oklab, var(--primary) 55%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-3d {
+    opacity: 1;
+    transform: none;
+  }
+}

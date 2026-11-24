@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+import { ClientOnly, Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -26,6 +27,8 @@ import {
 } from "@/components/page-parts";
 import { projects } from "@/lib/content";
 
+const HeroScene = lazy(() => import("@/components/hero-scene"));
+
 export function HomePage() {
   return (
     <>
@@ -38,6 +41,11 @@ export function HomePage() {
           width="1672"
           height="941"
         />
+        <ClientOnly fallback={null}>
+          <Suspense fallback={null}>
+            <HeroScene />
+          </Suspense>
+        </ClientOnly>
         <div className="container hero-content">
           <div className="eyebrow">
             <span className="eyebrow-dot" />
