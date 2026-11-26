@@ -25,7 +25,9 @@ import {
   Faqs,
   ViewAllServices,
 } from "@/components/page-parts";
-import { projects } from "@/lib/content";
+import { articles, projects } from "@/lib/content";
+import { ArticleCard } from "@/components/content-pages";
+import { Newsletter } from "@/components/newsletter";
 
 const HeroScene = lazy(() => import("@/components/hero-scene"));
 
@@ -262,6 +264,25 @@ export function HomePage() {
           <Faqs />
         </div>
       </section>
+      <section className="section" aria-labelledby="home-insights-title">
+        <div className="container">
+          <div className="section-header">
+            <div>
+              <div className="eyebrow">Insights & ideas</div>
+              <h2 id="home-insights-title">Fresh thinking for your next step.</h2>
+            </div>
+            <Button asChild variant="outline">
+              <Link to="/blog">All articles <ArrowUpRight /></Link>
+            </Button>
+          </div>
+          <div className="article-grid">
+            {articles.slice(0, 3).map((article) => (
+              <ArticleCard key={article.slug} article={article} />
+            ))}
+          </div>
+        </div>
+      </section>
+      <Newsletter />
       <CTA />
     </>
   );

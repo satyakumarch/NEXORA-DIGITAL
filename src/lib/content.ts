@@ -228,36 +228,6 @@ export const process = [
     text: "We launch, learn and improve, building a foundation for your next stage of growth.",
   },
 ];
-export const stats = [
-  ["6", "Digital services under one roof"],
-  ["3", "Languages we welcome you in"],
-  ["24h", "Typical first reply on inquiries"],
-  ["100%", "Original design, made for you"],
-] as const;
-
-// Sample testimonials: fictional quotes that show the format. Replace with real client
-// words before treating them as endorsements.
-export const testimonials = [
-  {
-    quote:
-      "Nexora turned our vague idea into a website that finally feels like us. The process was clear from day one.",
-    name: "A. Sharma",
-    role: "Education consultancy, sample quote",
-  },
-  {
-    quote:
-      "The social media calendar alone saved us hours every week. Everything arrived on time and on brand.",
-    name: "R. Thapa",
-    role: "Restaurant owner, sample quote",
-  },
-  {
-    quote:
-      "Honest advice, fair pricing and no jargon. We always knew what was happening and why.",
-    name: "S. Gupta",
-    role: "Startup founder, sample quote",
-  },
-] as const;
-
 export const commonFaqs = [
   [
     "What types of businesses do you work with?",

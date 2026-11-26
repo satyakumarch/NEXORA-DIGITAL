@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowUp, ArrowUpRight, Menu, X, Globe, Mail } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Menu, X, Globe, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Motion3D } from "@/components/motion-3d";
@@ -11,6 +11,7 @@ const navigation = [
   ["About", "/about"],
   ["Services", "/services"],
   ["Portfolio", "/portfolio"],
+  ["Gallery", "/gallery"],
   ["Pricing", "/pricing"],
   ["Blog", "/blog"],
   ["Contact", "/contact"],
@@ -63,17 +64,17 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <header className="site-header">
         <div className="container header-inner">
           <Brand />
-          <nav className="desktop-nav" aria-label="Main navigation">
+          <nav className="desktop-nav max-[1100px]:hidden!" aria-label="Main navigation">
             {nav}
           </nav>
           <LanguageSwitcher />
-          <Button asChild variant="hero" className="header-cta">
+          <Button asChild variant="hero" className="header-cta max-[1100px]:hidden!">
             <Link to="/contact">
               Let’s Talk <ArrowUpRight />
             </Link>
           </Button>
           <Button
-            className="mobile-menu-button"
+            className="mobile-menu-button max-[1100px]:inline-flex!"
             variant="heroOutline"
             size="icon"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -172,6 +173,14 @@ export function SiteShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       </footer>
+      {channels.whatsapp && (
+        <Button asChild size="icon" className="fixed right-6 bottom-24 z-40 shadow-lg">
+          <a href={channels.whatsapp} target="_blank" rel="noopener noreferrer"
+            aria-label="Chat with Nexora on WhatsApp" title="Chat on WhatsApp">
+            <MessageCircle />
+          </a>
+        </Button>
+      )}
       {showTop && (
         <Button
           className="back-top"

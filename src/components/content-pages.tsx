@@ -115,6 +115,19 @@ export function AboutPage() {
           </div>
         </div>
       </section>
+      <section className="section section-soft">
+        <div className="container content-columns prose">
+          <div>
+            <div className="eyebrow">The person behind Nexora</div>
+            <h2>A solo agency. A personal connection.</h2>
+          </div>
+          <div>
+            <p>Nexora Digital is independently run by its owner. There is no team or layer of account managers — you speak directly with the person running the agency.</p>
+            <p>Each project starts with a conversation about your goals, the agreed scope and what can realistically be delivered.</p>
+            <Button asChild variant="outline"><Link to="/contact">Let’s talk <ArrowUpRight /></Link></Button>
+          </div>
+        </div>
+      </section>
       <WorkingProcess />
       <CTA />
     </>

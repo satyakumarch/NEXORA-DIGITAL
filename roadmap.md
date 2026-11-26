@@ -1,5 +1,11 @@
 # Nexora Digital website
 
+- [x] Add homepage article previews and a site-wide WhatsApp shortcut; verify both links.
+- [x] Add a photo gallery using existing sample project images.
+- [ ] Add a testimonials section using supplied reviews; waiting for real review text.
+- [x] Add a solo-run agency introduction instead of a team section.
+- [x] Add newsletter signup with Cloud storage and explicit consent; campaign email sending is not configured.
+
 - [x] Define brand system, shared navigation, footer, and page architecture.
 - [x] Build home, about, services and six service detail pages.
 - [x] Build filtered sample portfolio and five project detail pages.
